@@ -1,5 +1,8 @@
 import curses
+from curses.textpad import rectangle
 
+
+#clase para obtener un caracter con una poscion en la terminal
 class Oracion:
     ch:chr
     x:int
@@ -10,15 +13,15 @@ class Oracion:
         self.y = y
     
 
+#separa las platabras por espacios y asigna cara caracter a una posicion las guarda en una lista y la retorna
 def asignar_posicion(texto:str, maxX:int) -> list:
     cadena:list[Oracion] = []
-    #aux_or:Oracion
     palabra = ""
     x:int = 0
-    y:int = 0
+    y:int = 1
     for i in range(len(texto)):
         if i < len(texto) and texto[i] != ' ': #Esto solo va a funcionar porque el final de la oracion nunca va a haber un espacio.
-            palabra += texto[i]                    # y en python -1 equivale al final del string
+            palabra += texto[i]               
         else:
             if i < len(texto):
                 palabra += texto[i]
@@ -38,6 +41,7 @@ def asignar_posicion(texto:str, maxX:int) -> list:
     return cadena
     
 
+#Lo dice mas abajo pero inicia las cosas de ncurses
 def init_curses(stdscr):
     # Initialize curses settings
     curses.cbreak()  # React to keys instantly without requiring Enter
@@ -54,18 +58,20 @@ def init_curses(stdscr):
 #En caso de serlo pinta ade color verde el caracter corresponiente caso contrario de rojo
 def render(win,maxX,texto,texto2):
 
+
+    rectangle(win,0,0,14,maxX-1)
+
     for i in range(len(texto)):
-        y = i // maxX
-        x = i % maxX
-       
+
         if texto2[i] == "":
             c = curses.COLOR_BLUE
-        elif texto2[i] != "" and texto2[i] != texto[i]:
+        elif texto2[i] != "" and texto2[i] != texto[i].ch:
             c = curses.COLOR_RED
-        elif texto2[i] == texto[i]:
+        elif texto2[i] == texto[i].ch:
             c = curses.COLOR_GREEN
         win.addstr(texto[i].y,texto[i].x,texto[i].ch,curses.color_pair(c))
-        #curses.delay_output(20)
+
+    
 
 def main(stdscr):
     init_curses(stdscr)
@@ -77,9 +83,10 @@ def main(stdscr):
     paddingX = x//2 - maxX//2
     strWin = curses.newwin(16,maxX,4,paddingX)
     bp:int = 0 #index para las teclas apretadas
-    #stdscr.addstr(11,0,str(x))
+
     tex_con_pos = asignar_posicion(texto,maxX)
     while True:
+
         render(strWin,maxX,tex_con_pos,texto2)
         key = stdscr.getch()  # Get character input
 

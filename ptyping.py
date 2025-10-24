@@ -1,6 +1,6 @@
 import curses
 from curses.textpad import rectangle
-
+from palabras_random import*
 
 #clase para obtener un caracter con una poscion en la terminal
 class Oracion:
@@ -25,7 +25,7 @@ def asignar_posicion(texto:str, maxX:int) -> list:
         else:
             if i < len(texto):
                 palabra += texto[i]
-            if x + len(palabra) < maxX:
+            if x + len(palabra) < maxX - 1:
                 for i in range(len(palabra)):
                     x += 1
                     aux_or = Oracion(ch=palabra[i], x= x,y=y)
@@ -75,13 +75,14 @@ def render(win,maxX,texto,texto2):
 
 def main(stdscr):
     init_curses(stdscr)
-    texto = "Hola a todos yo soy el leon grito  la bestia en medio de la avenida yo soy el rey te destrozare, todos los complices son de mi apetito"
+    texto = generar_texto("")
     texto2 = [""]*len(texto)
-    maxX = 100
+
     c:int = curses.COLOR_BLUE
     _, x = stdscr.getmaxyx()
     paddingX = x//2 - maxX//2
-    strWin = curses.newwin(16,maxX,4,paddingX)
+    #MaxX y maxY estan definidos como variables globales en palabras random
+    strWin = curses.newwin(maxY,maxX,4,paddingX)
     bp:int = 0 #index para las teclas apretadas
 
     tex_con_pos = asignar_posicion(texto,maxX)

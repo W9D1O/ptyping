@@ -31,12 +31,13 @@ def asignar_posicion(texto:str, maxX:int) -> list:
                     aux_or = Oracion(ch=palabra[i], x= x,y=y)
                     cadena.append(aux_or)
             else:
-                x = 0
-                y += 1
-                for i in range(len(palabra)):
-                    x += 1
-                    aux_or = Oracion(ch=palabra[i], x= x,y=y)
-                    cadena.append(aux_or)
+                if y < maxY -1:
+                    x = 0
+                    y += 1
+                    for i in range(len(palabra)):
+                        x += 1
+                        aux_or = Oracion(ch=palabra[i], x= x,y=y)
+                        cadena.append(aux_or)
             palabra = ""
     return cadena
     

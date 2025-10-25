@@ -19,13 +19,14 @@ def flag_error(flag):
 
     except AssertionError:
         print("ERROR: Unexoected flag.\n\nUsage: python ptyping.py\n Flags:\n\t-d: Word from right side\n\t-i: Word from left side")
+        exit()
 
 def return_name_file(flag) -> str:
     arch = ""
     if flag == "-d":
         arch = "der.txt"
     elif flag == "-i":
-        arch = "izq.txr"
+        arch = "izq.txt"
     else:
         arch = "0_palabras_todas.txt"
     return arch
@@ -56,7 +57,4 @@ def generar_texto(flag):
         countLetter += len(ss)
         #print(countLetter//maxX)
         text += ss
-
-    print(text)
     return text
-generar_texto("")

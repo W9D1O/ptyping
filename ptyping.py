@@ -1,6 +1,8 @@
 import curses
 from curses.textpad import rectangle
 from palabras_random import*
+import sys
+from separador_de_palabras import generar_txt
 
 #clase para obtener un caracter con una poscion en la terminal
 class Oracion:
@@ -76,7 +78,10 @@ def render(win,maxX,texto,texto2):
 
 def main(stdscr):
     init_curses(stdscr)
-    texto = generar_texto("")
+    flag = ""
+    if len(sys.argv) > 1:
+        flag = sys.argv[1]
+    texto = generar_texto(flag)
     texto2 = [""]*len(texto)
 
     c:int = curses.COLOR_BLUE
@@ -102,4 +107,5 @@ def main(stdscr):
         strWin.refresh() # Refresh the screen to
 
 if __name__ == '__main__':
+    generar_txt()
     curses.wrapper(main)
